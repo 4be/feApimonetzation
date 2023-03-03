@@ -1,0 +1,66 @@
+.header{
+  padding: 2em;
+  display: flex;
+}
+
+.filter-table {
+  margin-right: 1em;
+  width: 100%;
+}
+
+.datepicker{
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 20%;
+  height: auto;
+}
+
+.button-submit{
+  margin-left: 1em;
+  width: 10%;
+}
+
+.data-container {
+  display: flex;
+  margin-right: 1em;
+  margin-left: 1em;
+  margin-bottom: 7em;
+  width: auto;
+}
+
+.data-content {
+  display: flex;
+  padding: 1em;
+  margin: 1em;
+  width: 100%;
+}
+
+.data-table{
+  border: 1px solid #dddddd;
+}
+
+.mat-column-index {
+  width: 5%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+  text-align: center;
+}
+
+.mat-column-key {
+  width: 80%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-doc_count{
+  width: 15%;
+  border-right: 1px solid #dddddd;
+  text-align: center;
+}
+
+.pdf-button{
+  position: fixed;
+  display: inline-block;
+  bottom: 4%;
+  right: 2%;
+}

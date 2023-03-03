@@ -1,0 +1,78 @@
+
+<!-- Add User Dialog -->
+<div *ngIf="data.type == 'add'">
+  <h1 mat-dialog-title>Add New User</h1>
+  <mat-divider style="margin-top: 1em;"/>
+  <div mat-dialog-content>
+    <span>Username</span>
+    <mat-form-field appearance="outline" style="margin-bottom: -1em; margin-top: 1em; width: 100%;">
+      <input matInput #newUsername type="text">
+    </mat-form-field>
+    <span>Password</span>
+    <mat-form-field appearance="outline" style="margin-bottom: -1em; margin-top: 1em; width: 100%;">
+      <input matInput #newPassword [type]="passwordType">
+      <button *ngIf="passwordType == 'password'" matSuffix mat-icon-button aria-label="Clear" (click)="passwordType='text'">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button *ngIf="passwordType == 'text'" matSuffix mat-icon-button aria-label="Clear" (click)="passwordType='password'">
+        <mat-icon>visibility_off</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="[newUsername.value, newPassword.value]" color="primary" cdkFocusInitial>SAVE</button>
+  </div>
+</div>
+
+
+<!-- Change Role Dialog -->
+<div *ngIf="data.type == 'role'">
+  <h1 mat-dialog-title>Changing <b>{{ data.Username }}</b>'s role</h1>
+  <div mat-dialog-content>
+    <mat-form-field class="select" appearance="outline" style="margin-bottom: -1em; margin-top: 1em; width: 100%;">
+      <mat-select #role [value]="data.UserRole" placeholder="Role">
+        <mat-option *ngFor="let role of roles" [value]="role.value">
+          {{role.viewValue}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="[data.Username, role.value]" color="primary" cdkFocusInitial>SAVE</button>
+  </div>
+</div>
+
+<!-- Change Password Dialog -->
+<div *ngIf="data.type == 'password'">
+  <h1 mat-dialog-title>Changing <b>{{ data.Username }}</b>'s password</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline" style="margin-bottom: -1em; margin-top: 1em; width: 100%;">
+      <input matInput #newPassword [type]="passwordType" placeholder="New Password">
+      <button *ngIf="passwordType == 'password'" matSuffix mat-icon-button aria-label="Clear" (click)="passwordType='text'">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button *ngIf="passwordType == 'text'" matSuffix mat-icon-button aria-label="Clear" (click)="passwordType='password'">
+        <mat-icon>visibility_off</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="[data.Username, newPassword.value]" color="primary" cdkFocusInitial>SAVE</button>
+  </div>
+</div>
+
+<!-- Delete User Dialog -->
+<div *ngIf="data.type == 'delete'">
+  <h1 mat-dialog-title>Remove User</h1>
+  <mat-divider style="margin-top: 1em;"/>
+  <div mat-dialog-content>
+    Would you like to remove '<b>{{ data.Username }}</b>' ?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="data.Username" color="primary" cdkFocusInitial>REMOVE</button>
+  </div>
+</div>

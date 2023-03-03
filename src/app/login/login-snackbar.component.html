@@ -1,0 +1,20 @@
+<div *ngIf="data.status">
+    <span class="login-snackbar" matSnackBarLabel>
+        Login success.
+    </span>
+    <span matSnackBarActions>
+        <button mat-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </span>
+</div>
+<div *ngIf="!data.status">
+    <span class="login-snackbar" matSnackBarLabel>
+        Incorrect username or password.
+    </span>
+    <span matSnackBarActions>
+        <button mat-button matSnackBarAction (click)="snackBarRef.dismissWithAction()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </span>
+</div>

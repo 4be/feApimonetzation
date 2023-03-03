@@ -1,0 +1,22 @@
+<mat-card class="main-card">
+    <img mat-card-image src="../assets/img/LogoBankSinarmas_black.png" alt="BSIM Logo">
+
+    <form (submit)="tryLogin(username.value, password.value, $event)">
+        <mat-form-field class="field" appearance="outline">
+            <mat-icon matPrefix>account_circle</mat-icon>
+            <input type="text" matInput placeholder="Username" #username>
+        </mat-form-field>
+        <mat-form-field class="field" appearance="outline">
+            <mat-icon matPrefix>key</mat-icon>
+            <input [type]="passwordType" matInput placeholder="Password" #password>
+            <button *ngIf="passwordType == 'password'" matSuffix mat-icon-button aria-label="Clear" (click)="passwordType='text'">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button *ngIf="passwordType == 'text'" matSuffix mat-icon-button aria-label="Clear" (click)="passwordType='password'">
+              <mat-icon>visibility_off</mat-icon>
+            </button>
+        </mat-form-field>
+        <!-- button masuk form untuk submit button -->
+        <button mat-raised-button class="button-login" color="primary" type="submit" >Login</button>
+    </form>
+</mat-card>

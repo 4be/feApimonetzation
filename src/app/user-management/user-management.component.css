@@ -1,0 +1,44 @@
+.header{
+  padding: 2em;
+  display: flex;
+}
+
+.filter-table {
+  margin-right: 1em;
+  width: 100%;
+}
+
+.button-submit{
+  margin-left: 1em;
+  width: 10%;
+}
+
+.table {
+  margin-right: 2em;
+  margin-left: 2em;
+  margin-top: 2em;
+  margin-bottom: 7em;
+  padding: 1em;
+}
+
+.data-table{
+  border: 1px solid #dddddd;
+}
+
+.mat-column-Username {
+  width: 50%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-UserRole {
+  width: 30%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-Actions {
+  width: 20%;
+  border-right: 1px solid #dddddd;
+  text-align: center;
+}

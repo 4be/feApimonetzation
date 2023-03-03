@@ -1,0 +1,36 @@
+<mat-toolbar class="toolbar">
+  <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+  </button> -->
+  <img class="toolbar-img" mat-card-image src="../assets/img/LogoBankSinarmas_black.png" alt="BSIM Logo">
+  <!-- <span>Dashboar API - Admin</span> -->
+  <!-- <nav mat-tab-nav-bar backgroundColor="primary" [tabPanel]="tabPanel"> -->
+  <span class="spacer"></span>
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a mat-tab-link *ngFor="let nav of navs"
+        (click)="moveMenu(nav,$event)"
+        [active]="activeLink == nav"
+        routerLinkActive="active"
+    >
+        <mat-icon matListItemIcon class="nav-icon">{{nav.icon}}</mat-icon>
+        {{nav.name}}
+    </a>
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  <!-- <span class="spacer"></span> -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="settings-icon">
+      <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+  <button mat-menu-item>
+      <mat-icon>dark_mode</mat-icon>
+      <span>Dark mode</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Log Out</span>
+  </button>
+  </mat-menu>
+</mat-toolbar>
+<!-- <mat-divider></mat-divider> -->
+<router-outlet></router-outlet>

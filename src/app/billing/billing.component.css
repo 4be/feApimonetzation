@@ -1,0 +1,71 @@
+.header{
+  padding: 2em;
+  display: flex;
+}
+
+.autocomplete{
+  margin-right: 1em;
+  width: 70%;
+}
+
+.datepicker{
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 20%;
+  height: auto;
+}
+
+.button-submit{
+  margin-left: 1em;
+  width: 10%;
+}
+
+.filter-table {
+  width: 100%;
+}
+
+.table {
+  margin-right: 2em;
+  margin-left: 2em;
+  margin-top: 2em;
+  margin-bottom: 7em;
+  padding: 1em;
+}
+
+.data-table{
+  border: 1px solid #dddddd;
+}
+
+.mat-column-APIName {
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-ResourceName {
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-APICount{
+  width: 10%;
+  border-right: 1px solid #dddddd;
+  text-align: center;
+}
+
+.mat-column-Price {
+  width: 10%;
+  border-right: 1px solid #dddddd;
+  text-align: left;
+}
+
+.mat-column-TotalBilling {
+  width: 15%;
+  text-align: left;
+}
+
+.pdf-button{
+  position: fixed;
+  display: inline-block;
+  bottom: 4%;
+  right: 2%;
+}

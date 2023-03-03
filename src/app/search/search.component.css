@@ -1,0 +1,86 @@
+.header{
+  padding: 2em;
+  display: flex;
+}
+
+.select{
+  margin-right: 1em;
+  width: 15%;
+}
+
+.autocomplete{
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 55%;
+}
+
+.datepicker{
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 20%;
+  height: auto;
+}
+
+.button-submit{
+  margin-left: 1em;
+  width: 10%;
+}
+
+.filter-table {
+  width: 100%;
+}
+
+.table {
+  margin-right: 2em;
+  margin-left: 2em;
+  margin-top: 2em;
+  margin-bottom: 7em;
+  padding: 1em;
+}
+
+.data-table{
+  border: 1px solid #dddddd;
+}
+
+.mat-column-ApplicationName {
+  width: 44%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-APIName {
+  width: 36%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-APIVersion {
+  width: 8%;
+  border-right: 1px solid #dddddd;
+  font-style: italic;
+}
+
+.mat-column-ResourceName {
+  width: 32%;
+  border-right: 1px solid #dddddd;
+  /* font-size: 20px; */
+}
+
+.mat-column-count{
+  width: 10%;
+  border-right: 1px solid #dddddd;
+  text-align: center;
+}
+
+.mat-column-Price {
+  width: 14%;
+  text-align: left;
+
+}
+
+.pdf-button{
+  position: fixed;
+  display: inline-block;
+  bottom: 4%;
+  right: 2%;
+}

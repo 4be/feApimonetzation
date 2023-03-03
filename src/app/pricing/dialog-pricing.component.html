@@ -1,0 +1,65 @@
+
+<!-- Edit Price Dialog -->
+<div *ngIf="data.type == 'price'">
+  <h1 mat-dialog-title>Edit Price</h1>
+  <mat-divider style="margin-top: 1em;"/>
+  <div mat-dialog-content>
+    <table class="dialog-table-pricing">
+      <tr>
+        <td>Application Name</td>
+        <td>:</td>
+        <td>{{ data.ApplicationName }}</td>
+      </tr>
+      <tr>
+        <td>API Name</td>
+        <td>:</td>
+        <td>{{ data.APIName }}</td>
+      </tr>
+      <tr>
+        <td>Resource Name</td>
+        <td>:</td>
+        <td>{{ data.ResourceName }}</td>
+      </tr>
+    </table>
+    <mat-form-field appearance="outline" style="margin-bottom: -1em; margin-top: 1em; width: 100%;">
+      <span>Price</span>
+      <input
+        #newPrice
+        matInput
+        currencyMask
+        [value]="data.Price"
+        [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', precision: 0, allowNegative: false }"
+      >
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="[newPrice.value,data]" color="primary" cdkFocusInitial>SAVE</button>
+  </div>
+</div>
+
+<!-- Confirm Save Tier Dialog -->
+<div *ngIf="data.type == 'tier'">
+  <h1 mat-dialog-title>Save Changes</h1>
+  <mat-divider style="margin-top: 1em;"/>
+  <div mat-dialog-content>
+    Are you sure want to save current change(s) ?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="1" color="primary" cdkFocusInitial>SAVE</button>
+  </div>
+</div>
+
+<!-- Confirm Change Plan Dialog -->
+<div *ngIf="data.type == 'plan'">
+  <h1 mat-dialog-title>Change Plan</h1>
+  <mat-divider style="margin-top: 1em;"/>
+  <div mat-dialog-content>
+    Are you sure want to change plan to '{{ data.plan }}' ?
+  </div>
+  <div mat-dialog-actions>
+    <button mat-stroked-button mat-dialog-close [mat-dialog-close]="null" color="primary">CANCEL</button>
+    <button mat-flat-button mat-dialog-close [mat-dialog-close]="data.plan" color="primary" cdkFocusInitial>CHANGE</button>
+  </div>
+</div>

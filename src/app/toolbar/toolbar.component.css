@@ -1,0 +1,30 @@
+.toolbar{
+  width: 100%;
+  background-color: whitesmoke;
+  box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.75);
+}
+
+.toolbar-img{
+  max-height: 70%;
+  max-width: 70%;
+  margin-right: 1em;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-icon {
+  margin-right: 0.25em;
+}
+
+nav a:hover {
+  color: whitesmoke;
+  background-color: rgba(229, 56, 53, 0.326);
+  border-radius: 0.625rem;
+  transition: all 0.5s ease;
+}
+
+.active {
+  background-color: black;
+}

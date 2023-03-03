@@ -1,0 +1,138 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<div class="header">
+  <!--Select-->
+  <mat-form-field class="select" appearance="outline">
+    <mat-select [(ngModel)]="selectValue" [(value)]="selectValue" (selectionChange)="onSelectChange($event); autocompleteValue.value='';" name="type" placeholder="API / App Name">
+      <mat-option *ngFor="let type of types" [value]="type.value">
+        {{type.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!--Autocomplete-->
+  <mat-form-field class="autocomplete" appearance="outline">
+    <input #autocompleteValue type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" placeholder="Search by keyword . . .">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <div *ngIf="selectValue == 'api'">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.text}}
+        </mat-option>
+      </div>
+      <div *ngIf="selectValue == 'app'">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option.text}}
+        </mat-option>
+      </div>
+      
+    </mat-autocomplete> 
+    <button *ngIf="myControl" matSuffix mat-icon-button aria-label="Clear" (click)="autocompleteValue.value=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  
+  <!--Date Picker-->
+  <mat-form-field class="datepicker" appearance="outline">
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+      <input matStartDate formControlName="start" placeholder="Start date" [matTooltip]="tooltipValue(range.value.start)">
+      <input matEndDate formControlName="end" placeholder="End date" [matTooltip]="tooltipValue(range.value.end)">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  
+    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+    <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+  </mat-form-field>
+
+  <!-- Refresh Button -->
+  <button
+    mat-raised-button
+    extended
+    style="bottom: -0.5em;"
+    [disabled]="!autocompleteValue.value || !range.value.start"
+    class="button-submit"
+    color="primary"
+    type="submit"
+    (click)="getAll($event)"
+  >
+    <mat-icon>search</mat-icon>Refresh
+  </button>
+</div>
+<mat-divider style="margin-top: -2em; margin-left: 2em; margin-right: 2em; margin-bottom: -1em;"></mat-divider>
+
+<!--Data Table-->
+<div>
+  <mat-card class="table mat-elevation-z3">
+  <!-- Table Filter -->
+  <mat-form-field class="filter-table" appearance="outline">
+    <input matInput (keyup)="applyFilter($event)" placeholder="Filter in data table . . ." #input>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <table mat-table [dataSource]="data" class="data-table" matSort>
+    <!-- Application Name Column -->
+    <ng-container matColumnDef="ApplicationName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Application Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.ApplicationName}} </td>
+    </ng-container>
+  
+    <!-- API Name Column -->
+    <ng-container matColumnDef="APIName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> API Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.APIName}} </td>
+    </ng-container>
+  
+    <!-- Version Column -->
+    <ng-container matColumnDef="APIVersion">
+      <th mat-header-cell *matHeaderCellDef> Version </th>
+      <td mat-cell *matCellDef="let element"> {{element.APIVersion}} </td>
+    </ng-container>
+  
+    <!-- Operation Name Column -->
+    <ng-container matColumnDef="ResourceName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.ResourceName}} </td>
+    </ng-container>
+  
+    <!-- Count Column -->
+    <ng-container matColumnDef="count">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Count </th>
+      <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+    </ng-container>
+  
+    <!-- Price Column -->
+    <ng-container matColumnDef="Price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+      <td mat-cell *matCellDef="let element"> 
+        <div *ngIf="element.Price == '-'; else elseBlock">
+          Not Set
+        </div>
+        <ng-template #elseBlock>
+          {{ element.Price | currency:'Rp. ':'symbol':'1.2'}}
+        </ng-template>
+      </td>
+    </ng-container>
+    
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+    
+    <!-- Header -->
+    <tr mat-header-row *matHeaderRowDef="elementOf(header)"></tr>
+    <tr mat-row *matRowDef="let row; columns: elementOf(header);"></tr>
+  </table>
+  <!-- Pagination -->
+  <mat-paginator
+    [pageSizeOptions]="[20]"
+    hidePageSize
+    showFirstLastButtons
+  ></mat-paginator>
+  </mat-card>
+</div>
+<mat-divider style="margin-left: 2em; margin-right: 2em;"></mat-divider>
+
+<!-- Button Convert PDF -->
+<div class="pdf-button">
+  <button mat-fab color="primary" [disabled]="data === undefined" (click)="downloadPDF()">
+    <mat-icon>picture_as_pdf</mat-icon>
+  </button>
+</div>

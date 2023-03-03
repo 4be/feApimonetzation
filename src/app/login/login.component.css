@@ -1,0 +1,30 @@
+.main-card {
+  max-width: 30%;
+  background-color: #eeeeee;
+  margin: auto;
+  margin-top: 5%;
+  padding: 2%;
+}
+
+.main-card img{
+  max-width: 50%;
+  max-height: 50%;
+}
+
+form{
+  width: 100%;
+  object-fit: contain;
+  margin-top: 5%;
+}
+
+.field{
+  width: 100%;
+  object-fit: contain;
+  margin-top: 2%;
+}
+
+.button-login{
+  width: 100%;
+  object-fit: contain;
+
+}

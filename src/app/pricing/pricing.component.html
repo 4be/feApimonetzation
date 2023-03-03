@@ -1,0 +1,215 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+<div class="header">
+  <!--Autocomplete-->
+  <mat-form-field class="autocomplete" appearance="outline">
+    <mat-icon matPrefix>web_asset</mat-icon>
+    <input #autocompleteValue type="text" matInput [formControl]="myControl" [matAutocomplete]="auto" placeholder="Search by applicationName.keyword . . .">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option.text}}
+      </mat-option>
+    </mat-autocomplete> 
+    <button *ngIf="myControl" matSuffix mat-icon-button aria-label="Clear" (click)="autocompleteValue.value=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- Refresh Button -->
+  <button mat-raised-button extended style="bottom: -0.5em;" [disabled]="!autocompleteValue.value" class="button-submit" color="primary" type="submit" (click)="getAll($event)"><mat-icon>search</mat-icon>Refresh</button>
+</div>
+<mat-divider style="margin-top: -2em; margin-left: 2em; margin-right: 2em; margin-bottom: -1em;"></mat-divider>
+
+<mat-tab-group style="margin: 2em;">
+  <!--Data Tiering-->
+  <mat-tab label="Tier">
+    <mat-card style="padding: 1em;" class="mat-elevation-z0">
+      <!-- Button for Activating -->
+      <div *ngIf="activePlan == 'Tier'; else elseBlockTier">
+        <button mat-stroked-button color="primary" style="width: 100%; margin-bottom: 1em;" disabled>
+          ACTIVATED
+        </button>
+      </div>
+      <ng-template #elseBlockTier>
+        <button mat-flat-button color="primary" (click)="openDialogConfirm({plan: 'Tier'},'plan')" style="width: 100%; margin-bottom: 1em;" [disabled]="!tierLastPrice">
+          SET ACTIVE
+        </button>
+      </ng-template>
+
+      <!-- Button for Editing -->
+      <div *ngIf="readonly; else elseBlock1">
+        <button mat-flat-button color="primary" (click)="editTier()" style="width: 100%; margin-bottom: 1em;" [disabled]="!data">
+          EDIT
+        </button>
+      </div>
+      <ng-template #elseBlock1>
+        <div class="button-group-cancel-save">
+          <button mat-stroked-button color="primary" (click)="cancelEditTier()" class="button-cancel">
+            CANCEL
+          </button>
+          <button mat-flat-button color="primary" (click)="openDialogConfirm(null,'tier')" class="button-save">
+            SAVE
+          </button>
+        </div>
+      </ng-template>
+      <mat-card *ngIf="data" class="parent-tier-card" style="background-color: transparent;">
+        <div
+          #tierCard
+          class="tiers"
+          cdkDrag
+          cdkDragLockAxis="x"
+          (cdkDragEnded)="onDragEnd($event)"
+        >
+          <button
+            *ngIf="this.tiers.length < 9 && !readonly"
+            mat-fab
+            class="tier-add-button"
+            (click)="addTier(0)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+
+          <!-- For All Tiers -->
+          <mat-card *ngFor="let tier of tiers; index as i" class="tier-card">
+            <mat-card-header class="tier-card-header">
+              <mat-card-title>Tier {{ i+1 }}</mat-card-title>
+              <button
+                *ngIf="this.tiers.length > 1"
+                mat-icon-button
+                style="position: absolute; right: 0px; top: 0px;"
+                [disabled]="readonly"
+                (click)="deleteTier(i)"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content class="tier-card-content">
+              <p>Price</p>
+              <mat-form-field appearance="outline">
+                <input
+                  #newPrice
+                  matInput
+                  currencyMask
+                  [(ngModel)]="tier.price"
+                  [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', precision: 0, allowNegative: false }"
+                  [disabled]="readonly"
+                >  
+              </mat-form-field>
+              <p>Hit Limit</p>
+              <mat-form-field appearance="outline">
+                <mat-icon matPrefix>chevron_left</mat-icon>
+                <input matInput [(ngModel)]="tier.hitLimit" type="number" [disabled]="readonly">
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- For Last Tier -->
+          <mat-card class="tier-card">
+            <mat-card-header class="tier-card-header">
+              <mat-card-title>Top Tier</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content class="tier-card-content">
+              <p>Price</p>
+              <mat-form-field appearance="outline">
+                <input
+                  #newPrice
+                  matInput
+                  currencyMask
+                  [(ngModel)]="tierLastPrice"
+                  [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', precision: 0, allowNegative: false }"
+                  [disabled]="readonly"
+                >  
+              </mat-form-field>
+              <p>Hit Limit</p>
+              <mat-form-field appearance="outline">
+                <mat-icon matPrefix>chevron_right</mat-icon>
+                <input matInput [(ngModel)]="tiers[tiers.length-1].hitLimit" type="number" disabled>
+              </mat-form-field>
+            </mat-card-content>
+          </mat-card>
+          
+          <button
+            *ngIf="this.tiers.length < 9 && !readonly"
+            mat-fab
+            class="tier-add-button"
+            (click)="addTier(1)"
+          >
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </mat-card>
+    </mat-card>
+  </mat-tab>
+
+  <!--Data Table-->
+  <mat-tab label="Single">
+    <mat-card style="padding: 1em;" class="mat-elevation-z0">
+      <!-- Button for Activating -->
+      <div *ngIf="activePlan == 'Single'; else elseBlockSingle">
+        <button mat-stroked-button color="primary" style="width: 100%; margin-bottom: 1em;" disabled>
+          ACTIVATED
+        </button>
+      </div>
+      <ng-template #elseBlockSingle>
+        <button mat-flat-button color="primary" (click)="openDialogConfirm({plan: 'Single'},'plan')" style="width: 100%; margin-bottom: 1em;" [disabled]="!data">
+          SET ACTIVE
+        </button>
+      </ng-template>
+
+      <!-- Table Filter -->
+      <mat-form-field class="filter-table" appearance="outline">
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter in data table . . ." #input>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <table mat-table [dataSource]="data" class="data-table" matSort>
+
+        <!-- API Name Column -->
+        <ng-container matColumnDef="APIName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> API Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.APIName}} </td>
+        </ng-container>
+    
+        <!-- Operation Name Column -->
+        <ng-container matColumnDef="ResourceName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Resource Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.ResourceName}} </td>
+        </ng-container>
+        
+        <!-- Prices Column -->
+        <ng-container matColumnDef="Price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Price </th>
+          <td mat-cell *matCellDef="let element"> 
+            <mat-form-field class="price-input" appearance="outline" style="margin-top: 1em;">
+              <input
+                matInput
+                currencyMask
+                disabled
+                [value]="element.Price"
+                [options]="{ align: 'left', prefix: 'Rp. ', thousands: '.', precision: 0, allowNegative: false }"
+              >
+              <button mat-icon-button matSuffix color="primary" (click)="openDialogConfirm(element,'price')"><mat-icon>edit</mat-icon></button>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        
+        <!-- Row shown when there is no matching data. -->
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+        
+        <!-- Header -->
+        <tr mat-header-row *matHeaderRowDef="elementOf(header)"></tr>
+        <tr mat-row *matRowDef="let row; columns: elementOf(header);"></tr>
+      </table>
+      <!-- Pagination -->
+      <mat-paginator
+        [pageSizeOptions]="[20]"
+        hidePageSize
+        showFirstLastButtons
+      ></mat-paginator>
+    </mat-card>
+    <mat-divider style="margin-top: 7em; margin-left: 2em; margin-right: 2em;"></mat-divider>
+  </mat-tab>
+
+</mat-tab-group>
